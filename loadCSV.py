@@ -4,8 +4,11 @@ Created on Sat Jan 27 20:12:12 2018
 
 @author: Andriy
 """
-import numpy as np
 import csv as csv
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as ss
 import pandas as pd
 
 readdata = csv.reader(open('E:\GoogleDrive\Торгівля\Торгова Система\dimahao\Statistics\^spx_y.csv', 'r'))
@@ -24,7 +27,4 @@ header = data[0]
 
 # from now , data without header
 data.pop(0)
-
-# display data as a table
-#print(pd.DataFrame(data, columns=header))
-
+#----------------------------------------------

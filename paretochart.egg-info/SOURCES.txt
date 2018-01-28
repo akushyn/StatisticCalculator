@@ -1,9 +1,0 @@
-README.rst
-setup.py
-paretochart/__init__.py
-paretochart/paretochart.py
-paretochart.egg-info/PKG-INFO
-paretochart.egg-info/SOURCES.txt
-paretochart.egg-info/dependency_links.txt
-paretochart.egg-info/requires.txt
-paretochart.egg-info/top_level.txt

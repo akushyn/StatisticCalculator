@@ -33,5 +33,5 @@ plt.hist(distr.lowClose, bins='auto')
 # cycle on distributions and plot 
 for i in range(len(distr.distributions)):
     plt.figure()
-    plt.title(distr.header[i])
+    plt.title(distr.titles[i])
     plt.hist(distr.distributions[i], bins=20)

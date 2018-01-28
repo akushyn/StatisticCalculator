@@ -4,7 +4,7 @@ import loadCSV as csv
 '''
 D - [0]   O - [1]   H - [2]   L - [3]   C - [4]
 '''
-header = ['High-Low', 'Open-High', 'Open-Low', 'High-Close', 'Low-Close']
+titles = ['High-Low', 'Open-High', 'Open-Low', 'High-Close', 'Low-Close']
 
 highLow = []
 openHigh = []

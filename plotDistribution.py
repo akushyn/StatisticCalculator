@@ -12,3 +12,5 @@ for i in range(len(distr.distributions)):
     plt.figure()
     plt.title(distr.titles[i])
     plt.hist(distr.distributions[i], bins=20)
+
+# add code here to configure histogramm

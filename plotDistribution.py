@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 # cycle on distributions and plot 
 for i in range(len(distr.distributions)):
     plt.figure()
-    plt.title(distr.titles[i])
+    plt.title(distr.shortNames[i])
     plt.hist(distr.distributions[i], bins=20)
 
 # add code here to configure histogramm

@@ -47,7 +47,7 @@ class AkStatisticCalculator:
         self.btnLoad.configure(activebackground="#d9d9d9")
         self.btnLoad.configure(activeforeground="#000000")
         self.btnLoad.configure(background="#d9d9d9")
-        self.btnLoad.configure(command=mainGUI_support.loadCSVFiles)
+        self.btnLoad.configure(command=mainGUI_support.loadCSVFile)
         self.btnLoad.configure(disabledforeground="#a3a3a3")
         self.btnLoad.configure(foreground="#000000")
         self.btnLoad.configure(highlightbackground="#d9d9d9")

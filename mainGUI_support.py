@@ -5,18 +5,28 @@ Created on Tue Jan 30 17:56:41 2018
 @author: Andriy
 """
 
-import sys
 import tkinter.filedialog as fileDialog
+import src.distribution as distr
+import src.loadCSVFile as csv
+import matplotlib.pyplot as plt
 
-def loadCSVFiles():
+fileName = ''
+csvData = []
+distributions = []
+
+def loadCSVFile():
     print('mainGUI_support.loadCSVFiles')
-    sys.stdout.flush()
+    #sys.stdout.flush()
 
-    fn = fileDialog.Open(root, filetypes = [('*.csv files', '.csv')]).show()
-    if fn == '':
+    global fileName, csvData
+    fileName = fileDialog.Open(root, filetypes = [('*.csv files', '.csv')]).show()
+    if fileName == '':
         return
-    print(fn)
-  
+    
+    csvData = csv.readDataFromFile(fileName)
+    #print(DataFrame(csvData))
+        
+ 
 def SaveFile(ev):
     fileName = fileDialog.SaveAs(root, filetypes = [('*.csv files', '.csv')]).show()
     if fileName == '':
@@ -27,7 +37,22 @@ def SaveFile(ev):
 
 def calculate():
     print('mainGUI_support.calculate')
-    sys.stdout.flush()
+    
+    global csvData
+    if len(csvData) == 0:
+        return
+    
+    distributions = distr.getDistributionList()
+    plotDistributions(distributions)
+    
+def plotDistributions(distrList):
+    
+    #draw in console
+    for i in range(len(distrList)):
+        plt.figure()
+        plt.title(distr.shortNames[i])
+        plt.hist(distr.distributions[i], bins=20)
+    
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root

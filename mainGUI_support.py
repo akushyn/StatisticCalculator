@@ -22,11 +22,11 @@ def loadCSVFile():
     fileName = fileDialog.Open(root, filetypes = [('*.csv files', '.csv')]).show()
     if fileName == '':
         return
-    
+
     csvData = csv.readDataFromFile(fileName)
     #print(DataFrame(csvData))
-        
- 
+
+
 def SaveFile(ev):
     fileName = fileDialog.SaveAs(root, filetypes = [('*.csv files', '.csv')]).show()
     if fileName == '':
@@ -37,22 +37,22 @@ def SaveFile(ev):
 
 def calculate():
     print('mainGUI_support.calculate')
-    
+
     global csvData
     if len(csvData) == 0:
         return
-    
+
     distributions = distr.getDistributionList()
     plotDistributions(distributions)
-    
+
 def plotDistributions(distrList):
-    
+
     #draw in console
     for i in range(len(distrList)):
         plt.figure()
         plt.title(distr.shortNames[i])
         plt.hist(distr.distributions[i], bins=20)
-    
+
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root

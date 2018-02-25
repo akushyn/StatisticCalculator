@@ -4,7 +4,7 @@ Created on Sun Jan 28 20:27:27 2018
 
 @author: Andriy
 """
-import src.calc.distribution as distr
+import src.distribution as distr
 import matplotlib.pyplot as plt
 
 # cycle on distributions and plot 

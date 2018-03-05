@@ -126,5 +126,3 @@ class AkHistoricalDataManagerView(wx.Dialog):
         hBox.Add(vBox_List, 2, wx.EXPAND, 0) 
         
         self.nb_Download.SetSizer(hBox)
-
-# end of class AkHistoricalDataManager

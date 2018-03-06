@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb 27 23:38:50 2018
-
-@author: Andriy
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Created on Tue Feb 27 23:35:59 2018
 
 @author: Andriy
@@ -14,9 +7,9 @@ Created on Tue Feb 27 23:35:59 2018
 import wx
 import wx.adv
 
-class AkJournalPanelView(wx.Dialog):
-    def __init__(self, *args, **kwds):
-        wx.Dialog.__init__(self, *args, **kwds)
+class AkJournalView(wx.Panel):
+    def __init__(self, *args, **kw):
+        super(AkJournalView, self).__init__(*args, **kw)
 
         self.calendar_Note = wx.adv.CalendarCtrl(self, wx.ID_ANY)
         self.btn_Ok = wx.Button(self, wx.ID_ANY, "OK")

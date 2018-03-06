@@ -6,13 +6,12 @@ Created on Sun Mar  4 21:40:57 2018
 """
 import wx
 from datetime import datetime
-from src.models.akJournalModel import AkJournalNotesModel, AkJournalNoteItemModel
-from src.views.notebook.akJournalView import AkJournalPanelView
+from src.models.akJournalModel import AkJournalModel, AkJournalNoteItemModel
 
 class AkJournalController:
-    def __init__(self):
-        self.model = AkJournalNotesModel()
-        self.view = AkJournalPanelView(None)
+    def __init__(self, view):
+        self.model = AkJournalModel()
+        self.view = view
         
         self.view.btn_Ok.Bind(wx.EVT_BUTTON, self.onAddNoteHandler, self.view.btn_Ok)       
         self.view.btn_Clear.Bind(wx.EVT_BUTTON, self.onClearHandler, self.view.btn_Clear)
@@ -49,5 +48,5 @@ class AkJournalController:
     
     def onDoubleClickHandler(self, event):
         print("Event handler 'onDoubleClickHandler' not implemented!")
-        #self.lst_Notes.GetFirstSelected()
+        event.Skip()
     

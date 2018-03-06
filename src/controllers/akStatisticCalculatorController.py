@@ -1,25 +1,22 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb 27 23:00:38 2018
+Created on Tue Mar  6 12:45:51 2018
 
 @author: Andriy
 """
-
 import wx
-import gettext
 from src.views.akStatisticCalculatorView import AkStatisticCalculatorView
 from src.models.akStatisticCalculatorModel import AkStatisticCalculatorModel
 from src.controllers.akInstrumentManagerController import AkInstrumentManagerController
 from src.controllers.akConnectionManagerController import AkConnectionManagerController
 from src.controllers.akHistoricalDataManagerController import AkHistoricalDataManagerController
 from src.controllers.akAboutController import AkAboutController
+from src.controllers.akAuiNotebookController import AkAuiNotebookController
 
-class AkStatisticCalculatorController(wx.App):
-    def OnInit(self):
+class AkStatisticCalculatorController():
+    def __init__(self):
         self.model = AkStatisticCalculatorModel()
         self.view = AkStatisticCalculatorView(None, wx.ID_ANY, "")
-        self.SetTopWindow(self.view)
-        
         
         self.view.Bind(wx.EVT_MENU, self.onConnectHandler, id=self.view.connectMenuItem.GetId())   
         self.view.Bind(wx.EVT_MENU, self.onDisconnectHandler, id=self.view.disconnectMenuItem.GetId())
@@ -30,9 +27,8 @@ class AkStatisticCalculatorController(wx.App):
         self.view.Bind(wx.EVT_MENU, self.onOptionsHandler, id=self.view.optionsMenuItem.GetId())
         self.view.Bind(wx.EVT_MENU, self.onHelpHandler, id=self.view.helpMenuItem.GetId()) 
         self.view.Bind(wx.EVT_MENU, self.onAboutHandler, id=self.view.aboutMenuItem.GetId())
-
-        self.view.Show()
-        return True
+        
+        self.notebookController = AkAuiNotebookController(self.view.notebook)
 
     def onInstrumentHandler(self, event): 
         print("Event handler 'onInstrumentHandler' called!")
@@ -83,10 +79,3 @@ class AkStatisticCalculatorController(wx.App):
         
         if (answer == wx.YES):
             self.view.Close()
-
-
-if __name__ == "__main__":
-    gettext.install("app") 
-
-    app = AkStatisticCalculatorController(0)
-    app.MainLoop()

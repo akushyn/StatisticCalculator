@@ -7,7 +7,9 @@ Created on Tue Feb 27 23:00:38 2018
 
 import wx
 import wx.html
-from src.controllers.akJournalController import AkJournalController
+import wx.aui
+
+from src.views.akAuiNotebookView import AkAuiNotebookView
 
 class AkStatisticCalculatorView(wx.Frame):
     def __init__(self, *args, **kwds):
@@ -18,16 +20,7 @@ class AkStatisticCalculatorView(wx.Frame):
         self.InitMenuBar()
         
         self.btn_Calculate = wx.Button(self, wx.ID_ANY, "Calculate")
-        self.notebook_Main = wx.Notebook(self, wx.ID_ANY) #AkNotebookPanelView() 
-       
-        self.notebook_Summary = wx.Panel(self.notebook_Main, wx.ID_ANY)
-        self.notebook_Graphs = wx.Panel(self.notebook_Main, wx.ID_ANY)
-        self.notebook_Periods = wx.Panel(self.notebook_Main, wx.ID_ANY)
-        
-        self.journalController = AkJournalController()
-        #self.notebook_Journal = AkJournalPanelView(self.notebook_Main, wx.ID_ANY)
-
-        #self.noteBookController = AkNotebookController()
+        self.notebook = AkAuiNotebookView(self)
         
         self.__set_properties()
         self.__do_layout()
@@ -103,9 +96,9 @@ class AkStatisticCalculatorView(wx.Frame):
     def __do_layout(self):
         sizer = wx.BoxSizer(wx.VERTICAL)
 
-        self.notebook_Main.AddPage(self.notebook_Summary, "Summary")
-        self.notebook_Main.AddPage(self.notebook_Graphs, "Graphs")
-        self.notebook_Main.AddPage(self.notebook_Periods, "Periods")
+#        self.notebook_Main.AddPage(self.notebook_Summary, "Summary")
+#        self.notebook_Main.AddPage(self.notebook_Graphs, "Graphs")
+#        self.notebook_Main.AddPage(self.notebook_Periods, "Periods")
         #self.notebook_Main.AddPage(self.journalController.view, "Journal")
         
         hBox_Calculate = wx.BoxSizer(wx.HORIZONTAL)
@@ -118,6 +111,7 @@ class AkStatisticCalculatorView(wx.Frame):
         hBox_Calculate.Add((0, 0), 0, 0, 0)
         sizer.Add(hBox_Calculate, 0, wx.ALL | wx.EXPAND, 10)
         
-        sizer.Add(self.notebook_Main, 1, wx.ALL | wx.EXPAND, 5)
+        sizer.Add(self.notebook, 1, wx.ALL | wx.EXPAND, 5)
         self.SetSizer(sizer)
+        wx.CallAfter(self.notebook.SendSizeEvent)
         self.Layout()

@@ -23,13 +23,13 @@ class AkWatchListNameController:
         
         if (self.view.text_Name.GetValue() == "Default"):
             dlg = wx.MessageDialog(self.view, "Default watch list is already defined", "Notification", wx.OK | wx.ICON_ERROR)
-        if (dlg.ShowModal() == wx.ID_OK):
-            dlg.Destroy()
-            return
+            if (dlg.ShowModal() == wx.ID_OK):
+                dlg.Destroy()
+                return
         
         #TODO: send value to listener
         
-        self.view.Destroy()
+        self.view.Close()
         
     def onCancelHandler(self, event): 
-        self.view.Destroy()
+        self.view.Close()

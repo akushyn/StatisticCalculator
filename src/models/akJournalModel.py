@@ -18,7 +18,7 @@ class AkJournalNoteItemModel:
     def ToString(self):
         return ' '.join([self._date, self._note])
         
-class AkJournalNotesModel():
+class AkJournalModel():
     def __init__(self):
         self._notes = []
     

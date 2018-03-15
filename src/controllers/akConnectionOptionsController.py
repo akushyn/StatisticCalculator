@@ -27,6 +27,5 @@ class AkConnectionOptionsController:
         event.Skip()
 
     def onCancelConnectionOptionsHandler(self, event):
-        print("Event handler 'onCancelConnectionOptionsHandler' not implemented!")
         self.Close()
         event.Skip()

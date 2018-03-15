@@ -13,7 +13,7 @@ class AkConnectionManagerView(wx.Dialog):
         wx.Dialog.__init__(self, *args, **kwds)
         self.SetSize((370, 235))
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
-        self.lstConnections = wx.ListBox(self.panel, wx.ID_ANY, choices=["c"])
+        self.lstConnections = wx.ListBox(self.panel, wx.ID_ANY)
         self.btn_Add = wx.Button(self.panel, wx.ID_ANY, "Add...")
         self.btn_Change = wx.Button(self.panel, wx.ID_ANY, "Change...")
         self.btn_Remove = wx.Button(self.panel, wx.ID_ANY, "Remove")
@@ -21,7 +21,7 @@ class AkConnectionManagerView(wx.Dialog):
 
         self.__set_properties()
         self.__do_layout()
-
+        
 
     def __set_properties(self):
 
@@ -36,14 +36,38 @@ class AkConnectionManagerView(wx.Dialog):
     def __do_layout(self):
         sizer = wx.BoxSizer(wx.VERTICAL)
         hBox = wx.BoxSizer(wx.HORIZONTAL)
-        hBox_Buttons = wx.BoxSizer(wx.VERTICAL)
+        vBox_Buttons = wx.BoxSizer(wx.VERTICAL)
         hBox.Add(self.lstConnections, 1, wx.BOTTOM | wx.EXPAND | wx.LEFT | wx.TOP, 10)
-        hBox_Buttons.Add(self.btn_Add, 0, wx.BOTTOM | wx.TOP, 5)
-        hBox_Buttons.Add(self.btn_Change, 0, wx.BOTTOM | wx.TOP, 5)
-        hBox_Buttons.Add(self.btn_Remove, 0, wx.BOTTOM | wx.TOP, 5)
-        hBox_Buttons.Add(self.btn_Close, 0, wx.TOP, 5)
-        hBox.Add(hBox_Buttons, 0, wx.LEFT | wx.TOP, 15)
-        self.panel.SetSizer(hBox)
+        vBox_Buttons.Add(self.btn_Add, 0, wx.BOTTOM | wx.TOP, 5)
+        vBox_Buttons.Add(self.btn_Change, 0, wx.BOTTOM | wx.TOP, 5)
+        vBox_Buttons.Add(self.btn_Remove, 0, wx.BOTTOM | wx.TOP, 5)
+        vBox_Buttons.Add(self.btn_Close, 0, wx.TOP, 5)
+        hBox.Add(vBox_Buttons, 1, wx.LEFT | wx.TOP | wx.Right, 15)
+        self.panel.SetSizerAndFit(hBox)
         sizer.Add(self.panel, 1, wx.ALL | wx.EXPAND, 0)
         self.SetSizer(sizer)
         self.Layout()
+        
+    def AddConnection(self, name):
+        self.lstConnections.Append(name)
+        self.lstConnections.SetSelection(self.lstConnections.GetCount() - 1)
+
+    def ChangeConnection(self, renamed):
+        sel = self.lstConnections.GetSelection()
+        if renamed != '':
+            self.lstConnections.Delete(sel)
+            self.lstConnections.Insert(renamed, sel)
+            self.lstConnections.SetSelection(sel)
+    
+    def RemoveConnection(self):
+        sel = self.lstConnections.GetSelection()
+        if (sel != -1):
+            self.lstConnections.Delete(sel)
+            if (self.lstConnections.GetCount() > 0):
+                self.lstConnections.SetSelection(0)
+    
+    def GetSelectedIndex(self):
+        return self.lstConnections.GetSelection()
+    
+    def GetSelectedConnection(self):
+        return self.lstConnections.GetString(self.lstConnections.GetSelection())

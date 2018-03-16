@@ -13,10 +13,14 @@ from src.views.akSearchView import AkSearchView
 
 instrumentData = [("EURUSD", "Euro FX"), ("GBPUSD", "British Pound"), ("GC", "COMEX Gold Futures"), ("CL", "Crude Oil Futures"), ("SP500", "S&P 500"), ("AUDUSD", "Australian Dollar"), ("EURJPY", "Euro vs Japanese Yen"), ("USDJPY", "Japanese Yen"), ("BTCUSD", "Bit coin"), ("LTCUSD", "Light coin")]
 
-class AkInstrumentManagerView(wx.Dialog):
-    def __init__(self, *args, **kwds):
-        wx.Dialog.__init__(self, *args, **kwds)
-        self.SetSize((515, 430))
+class AkInstrumentView(wx.Dialog):
+    def __init__(self, parent, controller):
+        style = wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER
+        super(AkInstrumentView, self).__init__(parent, style=style)
+        self.SetInitialSize((515, 430))
+        
+        self.controller = controller
+        self.controller.Register(self)
         
         self.watchListView = AkWatchListView(self)
         self.searchView = AkSearchView(self)
@@ -27,6 +31,9 @@ class AkInstrumentManagerView(wx.Dialog):
 
         self.__set_properties()
         self.__do_layout()
+
+        self.Bind(wx.EVT_BUTTON, self.onSaveAndApply_btnClick_Handler, self.btnOK)
+        self.Bind(wx.EVT_BUTTON, self.onCancel_btnClick_Handler, self.btnCancel)        
 
 
     def __set_properties(self):
@@ -103,4 +110,47 @@ class AkInstrumentManagerView(wx.Dialog):
         
     def RemoveItem(self):
         self.watchListInstruments
+    
+    def onInsertItems_btnClick_Handler(self, event):  
+        checkedList = []
+
+        num = self.view.checkedInstrumentsList.GetItemCount()
+        if (num < 1 ):
+            return
+        
+        for i in range(num):
+            if (self.view.checkedInstrumentsList.IsChecked(i)):
+                value = self.view.checkedInstrumentsList.GetItemText(i)
+                checkedList.append(value + '\n')
+             
+        self.view.watchListInstruments.Items = checkedList
+
+        index = self.view.GetSelectedWatchListIndex()
+        self.model.InsertWatchListData(index, checkedList)        
+
+    def onSearchInstrument_btnClick_Handler(self, event):  
+        "Search instrument by 'Name' or by 'Description'"
+        
+        print("Event handler 'onSearchInstrument_btnClick_Handler' not implemented!")
+        event.Skip()
+
+    def onSelectAllInstruments_btnClick_Handler(self, event): 
+        "Select all instruments in the checkedInstrumentsList"
+        num = self.view.checkedInstrumentsList.GetItemCount()
+        for i in range(num):
+            self.view.checkedInstrumentsList.CheckItem(i)        
+
+    def onDeselectAllInstruments_btnClick_Handler(self, event):  
+        num = self.view.checkedInstrumentsList.GetItemCount()
+        for i in range(num):
+            self.view.checkedInstrumentsList.CheckItem(i, False) 
+
+
+    def onSaveAndApply_btnClick_Handler(self, event): 
+        print("Event handler 'onSaveAndApply_btnClick_Handler' not implemented!")
+        event.Skip()
+
+    def onCancel_btnClick_Handler(self, event): 
+        self.view.Close()
+
     

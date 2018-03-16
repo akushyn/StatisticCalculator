@@ -8,6 +8,7 @@ import wx
 from wx.lib.pubsub import pub
 import wx.lib.agw.customtreectrl as CT
 from src.controllers.akPubEvents import AkPubEvents, AkHistoricalDataEvents
+from src.utilities.akStringUtility import AkMenuString as ak
 
 class AkTreeControl(CT.CustomTreeCtrl):
     ''' LazyTree is a simple "Lazy Evaluation" tree, that is, it only adds 
@@ -30,12 +31,33 @@ class AkTreeControl(CT.CustomTreeCtrl):
         self.Bind(wx.EVT_TREE_ITEM_EXPANDING, self.OnExpandTreeItem_Handler)
         self.Bind(wx.EVT_TREE_ITEM_COLLAPSING, self.OnCollapseTreeItem_Handler)
         self.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.OnTreeItemDoubleClick_Handler)
+        self.Bind(wx.EVT_TREE_ITEM_RIGHT_CLICK, self.OnShowPopup_Handler)
 
         pub.subscribe(self.AddImportedTreeItem, AkPubEvents.IMPORTED_DATA_CHANGED)
-
-#------------------------------------------------------------------------------
+ 
+         #------------------------------------------------------------------------------
 # Event handlers
 #------------------------------------------------------------------------------
+    def OnShowPopup_Handler(self, event):
+        self.treeItemPopup = event.GetItem()
+        if(self.ItemHasChildren(self.treeItemPopup) == False):
+            self.popupmenu = wx.Menu()
+            deleteItem = self.popupmenu.Append(ak.ID_DELETE, ak.ITEM_DELETE)
+            self.Bind(wx.EVT_MENU, self.OnSelectContext_Handler, deleteItem)
+            
+            editItem = self.popupmenu.Append(ak.ID_EDIT, ak.ITEM_EDIT)
+            self.Bind(wx.EVT_MENU, self.OnSelectContext_Handler, editItem)
+            
+            self.PopupMenu(self.popupmenu, event.GetPoint())
+            self.popupmenu.Destroy()
+
+    def OnSelectContext_Handler(self, event):
+        item = self.popupmenu.FindItemById(event.GetId())
+        if (item.GetText() == ak.ITEM_DELETE):
+            #self.Delete(self.treeItemPopup)
+            print("Delete item")
+        elif (item.GetText() == ak.ITEM_EDIT): 
+            print("Edit item")
         
     def OnExpandTreeItem_Handler(self, event):
         print("Event handler 'OnExpandTreeItem_Handler' not implemented!")
@@ -50,7 +72,6 @@ class AkTreeControl(CT.CustomTreeCtrl):
 
     def OnCollapseTreeItem_Handler(self, event):
         print("Event handler 'OnCollapseTreeItem_Handler' not implemented!")
-        print(event.GetEventObject())
         # Be prepared, self.CollapseAndReset below may cause
         # another wx.EVT_TREE_ITEM_COLLAPSING event being triggered.
 
@@ -65,7 +86,7 @@ class AkTreeControl(CT.CustomTreeCtrl):
 
 
     def OnTreeItemDoubleClick_Handler(self,event):
-        print("Event handler 'OnTreeItemDoubleClick_Handler' not implemented!")
+        #print("Event handler 'OnTreeItemDoubleClick_Handler' not implemented!")
         print('Double clicked on', self.GetItemText(event.GetItem()))
 
         item = event.GetItem()
@@ -73,17 +94,9 @@ class AkTreeControl(CT.CustomTreeCtrl):
         
         pub.sendMessage(AkHistoricalDataEvents.LIST_DATA_CONTROL_CHANGING, data=data)   
         print("Pub sendMessage 'OnListDataChanging' called!") 
-                    
-                
        
     def AddImportedTreeItem(self, items):
         self.DeleteChildren(self.imported)
-        
-        #child = self.GetFirstChild(self.imported)
-        #while (child.IsOk()):
-        #    print(child)
-        #    child = self.GetNextChild(self.imported)
-
         
         for i in range(len(items)):
             item = items[i]

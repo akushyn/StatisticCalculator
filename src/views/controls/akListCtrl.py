@@ -16,7 +16,7 @@ class AkListCtrl(wx.ListCtrl):
         super(AkListCtrl, self).__init__(*args, **kwargs)
         self.__set_properties()
         
-        pub.subscribe(self.DisplayListData, AkHistoricalDataEvents.LIST_DATA_CONTROL_CHANGING)
+        pub.subscribe(self.ShowData, AkHistoricalDataEvents.LIST_DATA_CONTROL_CHANGING)
          
     def __set_properties(self):
         self.AppendColumn("Date", format=wx.LIST_FORMAT_LEFT, width=-1)
@@ -25,7 +25,7 @@ class AkListCtrl(wx.ListCtrl):
         self.AppendColumn("Low", format=wx.LIST_FORMAT_LEFT, width=-1)
         self.AppendColumn("Close", format=wx.LIST_FORMAT_LEFT, width=-1)
 
-    def DisplayListData(self, data):
+    def ShowData(self, data):
         print("Pub handler 'OnListDataChanging' called!")
         # [Date, Open, High, Low, Close]
         if (data):

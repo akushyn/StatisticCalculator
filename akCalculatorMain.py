@@ -9,12 +9,15 @@ import wx
 import gettext
 
 from src.controllers.akCalculatorController import AkCalculatorController
+from src.views.akCalculatorView import AkCalculatorView
+
 
 class AkCalculatorMain(wx.App):
     def OnInit(self):
         
         self.controller = AkCalculatorController()
         self.SetTopWindow(self.controller.view)
+        
         
         self.controller.view.Show()
         return True

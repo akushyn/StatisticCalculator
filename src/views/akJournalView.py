@@ -8,8 +8,8 @@ import wx
 import wx.adv
 
 class AkJournalView(wx.Panel):
-    def __init__(self, *args, **kw):
-        super(AkJournalView, self).__init__(*args, **kw)
+    def __init__(self, parent):
+        super(AkJournalView, self).__init__(parent)
 
         self.calendar_Note = wx.adv.CalendarCtrl(self, wx.ID_ANY)
         self.btn_Ok = wx.Button(self, wx.ID_ANY, "OK")
@@ -43,8 +43,8 @@ class AkJournalView(wx.Panel):
         hBox_TopJournal.Add(hBox_TextNote, 1, wx.EXPAND, 0)
         sizer_Journal.Add(hBox_TopJournal, 1, wx.EXPAND, 0)
         sizer_Journal.Add(self.lst_Notes, 4, wx.EXPAND, 0)
-        self.SetSizer(sizer_Journal)
 
+        self.SetSizer(sizer_Journal)
         self.Layout()        
         
         

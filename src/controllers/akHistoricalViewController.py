@@ -10,7 +10,7 @@ from src.models.akHistoricalDataModel import AkHistoricalDataModel
 from src.controllers.akPubEvents import AkPubEvents
 from src.models.akHistoricalDataModel import AkInstrument
 
-class AkHistoricalDataController(AkController):
+class AkHistoricalViewController(AkController):
     def __init__(self):
         AkController.__init__(self)  
         

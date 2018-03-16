@@ -9,15 +9,15 @@ import wx.adv
 from src.views.akDownloadView import AkDownloadView
 from src.views.akImportView import AkImportView
 
-class AkHistoricalDataView(wx.Dialog):
+class AkHistoricalView(wx.Dialog):
     def __init__(self, parent, controller):
         style = wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER
-        super(AkHistoricalDataView, self).__init__(parent, style=style)
+        super(AkHistoricalView, self).__init__(parent, style=style)
+        self.SetInitialSize((766, 537))
         
         self.controller = controller
         self.controller.Register(self)
         
-        self.SetInitialSize((766, 537))
         self.notebook = wx.Notebook(self, wx.ID_ANY)
         
         self.importView = AkImportView(self.notebook, self.controller)
@@ -25,6 +25,10 @@ class AkHistoricalDataView(wx.Dialog):
 
         self.__set_properties()
         self.__do_layout()
+        
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.Bind(wx.EVT_WINDOW_DESTROY, self.OnDestroy)
+
 
     def __set_properties(self):
         self.SetTitle("Historical Data Manager")
@@ -38,3 +42,11 @@ class AkHistoricalDataView(wx.Dialog):
         
         self.SetSizer(sizer)
         self.Layout()
+        
+    def OnClose(self, event):
+        print('In OnClose')
+        event.Skip()
+
+    def OnDestroy(self, event):
+        print('In OnDestroy')
+        event.Skip()

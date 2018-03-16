@@ -32,9 +32,13 @@ class AkInstrumentView(wx.Dialog):
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.EVT_BUTTON, self.onSaveAndApply_btnClick_Handler, self.btnOK)
-        self.Bind(wx.EVT_BUTTON, self.onCancel_btnClick_Handler, self.btnCancel)        
+#------------------------------------------------------------------------------
+# Private methods
+#------------------------------------------------------------------------------
 
+    def __set_bindings(self):
+        self.Bind(wx.EVT_BUTTON, self.OnSaveAndApply_Handler, self.btnOK)
+        self.Bind(wx.EVT_BUTTON, self.OnCancel_Handler, self.btnCancel)        
 
     def __set_properties(self):
         self.SetTitle("Instrument Manager")
@@ -65,6 +69,23 @@ class AkInstrumentView(wx.Dialog):
         self.SetSizer(sizer)
         self.Layout()
 
+#------------------------------------------------------------------------------        
+# Get/Set methods
+#------------------------------------------------------------------------------
+
+    def GetWatchListObject(self):
+        return self._comboboxList
+
+    def GetSelectedWatchList(self):
+        return self._comboboxList.GetStringSelection()
+
+    def GetSelectedWatchListIndex(self):
+        return self._comboboxList.GetSelection()
+
+#------------------------------------------------------------------------------        
+# Other helper methods
+#------------------------------------------------------------------------------
+
     def initCheckInstrumentListBox(self):
         self.checkedInstrumentsList = AkCheckedInstrumentListBox(self)
         
@@ -75,8 +96,6 @@ class AkInstrumentView(wx.Dialog):
             self.checkedInstrumentsList.InsertItem(i, instrumentData[i][0])
             self.checkedInstrumentsList.SetItem(i, 1, instrumentData[i][1])
 
-    def GetWatchListObject(self):
-        return self._comboboxList
     
     def AddWatchList(self, name):
         if (name == ""):
@@ -102,14 +121,13 @@ class AkInstrumentView(wx.Dialog):
             self._comboboxList.Delete(sel)
             self._comboboxList.SetSelection(0)            
             
-    def GetSelectedWatchList(self):
-        return self._comboboxList.GetStringSelection()
-
-    def GetSelectedWatchListIndex(self):
-        return self._comboboxList.GetSelection()
         
     def RemoveItem(self):
         self.watchListInstruments
+
+#------------------------------------------------------------------------------
+# Event Handlers
+#------------------------------------------------------------------------------
     
     def onInsertItems_btnClick_Handler(self, event):  
         checkedList = []
@@ -146,11 +164,11 @@ class AkInstrumentView(wx.Dialog):
             self.view.checkedInstrumentsList.CheckItem(i, False) 
 
 
-    def onSaveAndApply_btnClick_Handler(self, event): 
-        print("Event handler 'onSaveAndApply_btnClick_Handler' not implemented!")
+    def OnSaveAndApply_Handler(self, event): 
+        print("Event handler 'OnSaveAndApply_Handler' not implemented!")
         event.Skip()
 
-    def onCancel_btnClick_Handler(self, event): 
+    def OnCancel_Handler(self, event): 
         self.view.Close()
 
     

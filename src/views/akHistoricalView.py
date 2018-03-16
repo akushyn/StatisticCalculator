@@ -18,17 +18,21 @@ class AkHistoricalView(wx.Dialog):
         self.controller = controller
         self.controller.Register(self)
         
-        self.notebook = wx.Notebook(self, wx.ID_ANY)
-        
-        self.importView = AkImportView(self.notebook, self.controller)
-        self.downloadView = AkDownloadView(self.notebook, self.controller)
+        self._notebook = wx.Notebook(self, wx.ID_ANY)
+        self._importView = AkImportView(self._notebook, self.controller)
+        self._downloadView = AkDownloadView(self._notebook, self.controller)
 
         self.__set_properties()
         self.__do_layout()
-        
-        self.Bind(wx.EVT_CLOSE, self.OnClose)
-        self.Bind(wx.EVT_WINDOW_DESTROY, self.OnDestroy)
+        self.__set_bindings()        
 
+#------------------------------------------------------------------------------
+# Private methods
+#------------------------------------------------------------------------------
+
+    def __set_bindings(self):
+        self.Bind(wx.EVT_CLOSE, self.OnCloseView_Handler)
+        self.Bind(wx.EVT_WINDOW_DESTROY, self.OnDestroyView_Handler)
 
     def __set_properties(self):
         self.SetTitle("Historical Data Manager")
@@ -36,17 +40,33 @@ class AkHistoricalView(wx.Dialog):
     def __do_layout(self):                
         sizer = wx.BoxSizer(wx.VERTICAL)
 
-        self.notebook.AddPage(self.importView, "Import")
-        self.notebook.AddPage(self.downloadView, "Download")              
-        sizer.Add(self.notebook, 1, wx.EXPAND, 0)
+        self._notebook.AddPage(self._importView, "Import")
+        self._notebook.AddPage(self._downloadView, "Download")              
+        sizer.Add(self._notebook, 1, wx.EXPAND, 0)
         
         self.SetSizer(sizer)
         self.Layout()
+
+#------------------------------------------------------------------------------        
+# Get/Set methods
+#------------------------------------------------------------------------------
+    def GetNotebook(self):
+        return self._notebook
+
+    def GetImportView(self):
+        return self._importView
+    
+    def GetDownloadView(self):
+        return self._downloadView
+
+#------------------------------------------------------------------------------
+# Event Handlers
+#------------------------------------------------------------------------------
         
-    def OnClose(self, event):
-        print('In OnClose')
+    def OnCloseView_Handler(self, event):
+        print("Event handler 'OnCloseView_Handler' not implemented!")
         event.Skip()
 
-    def OnDestroy(self, event):
-        print('In OnDestroy')
+    def OnDestroyView_Handler(self, event):
+        print("Event handler 'OnDestroyView_Handler' not implemented!")
         event.Skip()

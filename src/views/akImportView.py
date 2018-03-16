@@ -17,18 +17,24 @@ class AkImportView(wx.Panel):
         
         self.controller = controller
         
-        self.cb_Format = wx.ComboBox(self, wx.ID_ANY, choices=["Trade Workstation", "Metatrader 4"], style=wx.CB_DROPDOWN)
-        self.cb_TimeZone = wx.ComboBox(self, wx.ID_ANY, choices=["UTC"], style=wx.CB_DROPDOWN)
-        self.btn_Import = wx.Button(self, wx.ID_ANY, "Start Import")
+        self._cb_Format = wx.ComboBox(self, wx.ID_ANY, choices=["Trade Workstation", "Metatrader 4"], style=wx.CB_DROPDOWN)
+        self._cb_TimeZone = wx.ComboBox(self, wx.ID_ANY, choices=["UTC"], style=wx.CB_DROPDOWN)
+        self._btn_Import = wx.Button(self, wx.ID_ANY, "Start Import")
 
         self.__set_properties()
         self.__do_layout()
+        self.__set_bindings()
+        
+#------------------------------------------------------------------------------
+# Private methods
+#------------------------------------------------------------------------------
 
-        self.Bind(wx.EVT_BUTTON, self.onImportCSV_btnClick_Handler, self.btn_Import)  
+    def __set_bindings(self):
+        self.Bind(wx.EVT_BUTTON, self.OnImportCSV_handler, self._btn_Import)  
 
     def __set_properties(self):
-        self.cb_Format.SetSelection(0)
-        self.cb_TimeZone.SetSelection(0)
+        self._cb_Format.SetSelection(0)
+        self._cb_TimeZone.SetSelection(0)
 
     
     def __do_layout(self):
@@ -40,9 +46,9 @@ class AkImportView(wx.Panel):
         vBox_Labels.Add(lblTimeZone, 0, wx.ALL, 20)
         
         vBox_Inputs = wx.BoxSizer(wx.VERTICAL)
-        vBox_Inputs.Add(self.cb_Format, 0, wx.ALL | wx.EXPAND, 15)
-        vBox_Inputs.Add(self.cb_TimeZone, 0, wx.ALL | wx.EXPAND, 15)
-        vBox_Inputs.Add(self.btn_Import, 0, wx.ALL, 15)
+        vBox_Inputs.Add(self._cb_Format, 0, wx.ALL | wx.EXPAND, 15)
+        vBox_Inputs.Add(self._cb_TimeZone, 0, wx.ALL | wx.EXPAND, 15)
+        vBox_Inputs.Add(self._btn_Import, 0, wx.ALL, 15)
         
         sizer = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizer.Add(vBox_Labels, 1, wx.EXPAND, 0)
@@ -51,12 +57,12 @@ class AkImportView(wx.Panel):
         self.SetSizer(sizer)
         self.Layout()        
         
-    def onImportCSV_btnClick_Handler(self, event):
-        print("Event handler 'onImportCSVHandler' not implemented!")
-
-        #csvData = []
+#------------------------------------------------------------------------------
+# Event Handlers
+#------------------------------------------------------------------------------
+        
+    def OnImportCSV_handler(self, event):
         fileDialog = wx.FileDialog(self, "Open XYZ file", wildcard="CSV files (*.csv)|*.csv", style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
-
         if fileDialog.ShowModal() == wx.ID_CANCEL:
             return     
 

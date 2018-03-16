@@ -11,7 +11,5 @@ class AkNotebookViewController(AkController):
     def __init__(self):
         AkController.__init__(self)
         self.model = AkNotebookModel()
-
-        
-        #self.view.Bind(wx.aui.AUI_NB_CLOSE_ON_ACTIVE_TAB, self.onCloseActiveTabHandler, self.view)
+       
         

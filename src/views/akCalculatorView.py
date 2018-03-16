@@ -34,9 +34,9 @@ class AkCalculatorView(wx.Frame):
         self._btn_Calculate = wx.Button(self, wx.ID_ANY, "Calculate")
         self._notebookView = AkNotebookView(self, self.notebookController)
         
-        self.__set_bindings()
         self.__set_properties()
         self.__do_layout()
+        self.__set_bindings()
   
 #------------------------------------------------------------------------------
 # Private methods

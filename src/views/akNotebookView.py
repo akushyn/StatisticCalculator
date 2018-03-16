@@ -27,6 +27,7 @@ class AkNotebookView(wx.Panel):
        
         self.__set_properties()    
         self.__do_layout()
+         #self.view.Bind(wx.aui.AUI_NB_CLOSE_ON_ACTIVE_TAB, self.onCloseActiveTabHandler, self.view)
         
     def __set_properties(self):
         pass    

@@ -11,8 +11,7 @@ from src.controllers.akPubEvents import AkPubEvents, AkHistoricalDataEvents
 from src.utilities.akStringUtility import AkMenuString as ak
 
 class AkTreeControl(CT.CustomTreeCtrl):
-    ''' LazyTree is a simple "Lazy Evaluation" tree, that is, it only adds 
-        items to the tree view when they are needed.'''
+    ''' '''
 
     def __init__(self, parent):
         super(AkTreeControl, self).__init__(parent, agwStyle=wx.TR_DEFAULT_STYLE | wx.TR_TWIST_BUTTONS)

@@ -5,36 +5,44 @@ Created on Sun Mar 11 19:15:14 2018
 @author: Andriy
 """
 import wx
-from wx.lib.pubsub import pub
-from src.controllers.akPubEvents import AkPubEvents, AkHistoricalDataEvents
 from src.views.controls.akTreeControl import AkTreeControl
-from src.views.controls.akListCtrl import AkListCtrl
+from src.views.controls.akListControl import AkListControl
+from wx.lib.pubsub import pub
+from src.controllers.akPubEvents import AkHistoricalDataEvents
 
 class AkDownloadView(wx.Panel):
     def __init__(self, parent, controller):
         super(AkDownloadView, self).__init__(parent)
         
-        self.controller = controller
+        self._controller = controller
         
         self._tree = AkTreeControl(self)
-        self._list = AkListCtrl(self, wx.ID_ANY, style=wx.LC_HRULES | wx.LC_REPORT | wx.LC_VRULES)
+        self._list = AkListControl(self, wx.ID_ANY, style=wx.LC_HRULES | wx.LC_REPORT | wx.LC_VRULES)
 
         self._btn_Download = wx.Button(self, wx.ID_ANY, "Download")
         self._btn_Filter = wx.Button(self, wx.ID_ANY, "Filter")
 
-        self.dpStart = wx.adv.DatePickerCtrl(self, wx.ID_ANY)
-        self.dpEnd = wx.adv.DatePickerCtrl(self, wx.ID_ANY)
-
-        self._btn_Download.Bind(wx.EVT_BUTTON, self.OnDownloadButtonClick_Handler)  
-        self._btn_Filter.Bind(wx.EVT_BUTTON, self.OnFilterButtonClick_Handler)  
+        self._dpStart = wx.adv.DatePickerCtrl(self, wx.ID_ANY)
+        self._dpEnd = wx.adv.DatePickerCtrl(self, wx.ID_ANY)
 
         self.__set_properties()
         self.__do_layout()
+        self.__set_bindings()
+        
+        pub.subscribe(self._list.LoadData, AkHistoricalDataEvents.LIST_DATA_CONTROL_CHANGING)
+        
+#------------------------------------------------------------------------------
+# Private methods
+#------------------------------------------------------------------------------
+        
+    def __set_bindings(self):
+        self.Bind(wx.EVT_BUTTON, self.OnDownload_Handler, self._btn_Download)  
+        self.Bind(wx.EVT_BUTTON, self.OnFilter_Handler, self._btn_Filter) 
         
     def __set_properties(self):
         self._btn_Download.SetMinSize((182, 26))
-        self.dpStart.SetMinSize((123, 23))
-        self.dpEnd.SetMinSize((123, 23))
+        self._dpStart.SetMinSize((123, 23))
+        self._dpEnd.SetMinSize((123, 23))
 
     
     def __do_layout(self):
@@ -48,10 +56,10 @@ class AkDownloadView(wx.Panel):
         fxGrid = wx.FlexGridSizer(0, 2, 0, 0)
         lblStartDate = wx.StaticText(self, wx.ID_ANY, "Start date:")
         fxGrid.Add(lblStartDate, 0, wx.ALIGN_CENTER | wx.ALL, 5)
-        fxGrid.Add(self.dpStart, 0, wx.ALIGN_CENTER | wx.ALL, 5)   
+        fxGrid.Add(self._dpStart, 0, wx.ALIGN_CENTER | wx.ALL, 5)   
         lblEndDate = wx.StaticText(self, wx.ID_ANY, "End date:")
         fxGrid.Add(lblEndDate, 0, wx.ALIGN_CENTER | wx.ALL, 5)
-        fxGrid.Add(self.dpEnd, 0, wx.ALIGN_CENTER | wx.ALL, 5)
+        fxGrid.Add(self._dpEnd, 0, wx.ALIGN_CENTER | wx.ALL, 5)
 
         vBox_Grid = wx.BoxSizer(wx.VERTICAL)
         vBox_Grid.Add(fxGrid, 1, wx.ALIGN_CENTER | wx.EXPAND, 0)
@@ -78,14 +86,11 @@ class AkDownloadView(wx.Panel):
 # Event handler methods
 #------------------------------------------------------------------------------
 
-
-
-
-    def OnFilterButtonClick_Handler(self, event):
-        print("Event handler 'OnFilterButtonClick_Handler' not implemented!")
+    def OnFilter_Handler(self, event):
+        print("Event handler 'OnFilter_Handler' not implemented!")
         
-    def OnDownloadButtonClick_Handler(self, event):
-        print("Event handler 'OnDownloadButtonClick_Handler' not implemented!")
+    def OnDownload_Handler(self, event):
+        print("Event handler 'OnDownload_Handler' not implemented!")
 
 #------------------------------------------------------------------------------        
 # Get/Set methods
@@ -100,18 +105,8 @@ class AkDownloadView(wx.Panel):
 #------------------------------------------------------------------------------        
 # Class methods
 #------------------------------------------------------------------------------
-         
 
-#        importedTreeItem = tree.imported
-#        tree.AppendItem(importedTreeItem, fileName)
-        
-        #self.SetItemHasChildren(imported)
-        
-        #self._treeView.GetTree().AppendItem()
-        #csvData = []
-        #for row in data:
-        #    csvData.append(row)
-        #    print(row)    
+
             
             
             

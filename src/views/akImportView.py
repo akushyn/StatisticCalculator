@@ -15,7 +15,7 @@ class AkImportView(wx.Panel):
     def __init__(self, parent, controller):
         super(AkImportView, self).__init__(parent)
         
-        self.controller = controller
+        self._controller = controller
         
         self._cb_Format = wx.ComboBox(self, wx.ID_ANY, choices=["Trade Workstation", "Metatrader 4"], style=wx.CB_DROPDOWN)
         self._cb_TimeZone = wx.ComboBox(self, wx.ID_ANY, choices=["UTC"], style=wx.CB_DROPDOWN)
@@ -30,7 +30,7 @@ class AkImportView(wx.Panel):
 #------------------------------------------------------------------------------
 
     def __set_bindings(self):
-        self.Bind(wx.EVT_BUTTON, self.OnImportCSV_handler, self._btn_Import)  
+        self.Bind(wx.EVT_BUTTON, self.OnImportCSV_Handler, self._btn_Import)  
 
     def __set_properties(self):
         self._cb_Format.SetSelection(0)
@@ -61,7 +61,7 @@ class AkImportView(wx.Panel):
 # Event Handlers
 #------------------------------------------------------------------------------
         
-    def OnImportCSV_handler(self, event):
+    def OnImportCSV_Handler(self, event):
         fileDialog = wx.FileDialog(self, "Open XYZ file", wildcard="CSV files (*.csv)|*.csv", style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         if fileDialog.ShowModal() == wx.ID_CANCEL:
             return     

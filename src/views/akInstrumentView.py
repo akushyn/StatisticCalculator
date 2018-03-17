@@ -6,12 +6,10 @@ Created on Tue Feb 27 23:00:38 2018
 """
 
 import wx
-from src.views.controls.akCheckedInstrumentListBox import AkCheckedInstrumentListBox
 from src.views.akWatchListView import AkWatchListView
 from src.views.akCheckedListView import AkCheckedListView
 from src.views.akSearchView import AkSearchView
 
-instrumentData = [("EURUSD", "Euro FX"), ("GBPUSD", "British Pound"), ("GC", "COMEX Gold Futures"), ("CL", "Crude Oil Futures"), ("SP500", "S&P 500"), ("AUDUSD", "Australian Dollar"), ("EURJPY", "Euro vs Japanese Yen"), ("USDJPY", "Japanese Yen"), ("BTCUSD", "Bit coin"), ("LTCUSD", "Light coin")]
 
 class AkInstrumentView(wx.Dialog):
     def __init__(self, parent, controller):
@@ -26,11 +24,12 @@ class AkInstrumentView(wx.Dialog):
         self.searchView = AkSearchView(self)
         self.checkedListView = AkCheckedListView(self)
         
-        self.btnOK = wx.Button(self, wx.ID_ANY, "OK")
-        self.btnCancel = wx.Button(self, wx.ID_ANY, "Cancel")
+        self.btnOK = wx.Button(self, wx.ID_OK, "OK")
+        self.btnCancel = wx.Button(self, wx.ID_CLOSE, "Cancel")
 
         self.__set_properties()
         self.__do_layout()
+        self.__set_bindings()
 
 #------------------------------------------------------------------------------
 # Private methods
@@ -38,7 +37,7 @@ class AkInstrumentView(wx.Dialog):
 
     def __set_bindings(self):
         self.Bind(wx.EVT_BUTTON, self.OnSaveAndApply_Handler, self.btnOK)
-        self.Bind(wx.EVT_BUTTON, self.OnCancel_Handler, self.btnCancel)        
+        self.Bind(wx.EVT_BUTTON, self.OnClose_Handler, self.btnCancel)        
 
     def __set_properties(self):
         self.SetTitle("Instrument Manager")
@@ -46,7 +45,7 @@ class AkInstrumentView(wx.Dialog):
 
     def __do_layout(self):
         sizer = wx.BoxSizer(wx.VERTICAL)
-        vBox_Save = wx.BoxSizer(wx.HORIZONTAL)
+        hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
         hBox_Left = wx.BoxSizer(wx.HORIZONTAL)
         vBox_Instruments = wx.BoxSizer(wx.VERTICAL)
 
@@ -63,9 +62,11 @@ class AkInstrumentView(wx.Dialog):
         sizer.Add(hBox_Left, 1, wx.EXPAND, 0)
         static_line_2 = wx.StaticLine(self, wx.ID_ANY)
         sizer.Add(static_line_2, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
-        vBox_Save.Add(self.btnOK, 0, wx.ALIGN_CENTER | wx.LEFT | wx.RIGHT, 40)
-        vBox_Save.Add(self.btnCancel, 0, wx.ALIGN_CENTER | wx.LEFT | wx.RIGHT, 40)
-        sizer.Add(vBox_Save, 0, wx.ALIGN_CENTER | wx.BOTTOM | wx.TOP, 15)
+        
+        
+        hBoxButtons.Add(self.btnOK, 0, wx.ALIGN_CENTER | wx.LEFT | wx.RIGHT, 40)
+        hBoxButtons.Add(self.btnCancel, 0, wx.ALIGN_CENTER | wx.LEFT | wx.RIGHT, 40)
+        sizer.Add(hBoxButtons, 0, wx.ALIGN_CENTER | wx.BOTTOM | wx.TOP, 15)
         self.SetSizer(sizer)
         self.Layout()
 
@@ -86,17 +87,6 @@ class AkInstrumentView(wx.Dialog):
 # Other helper methods
 #------------------------------------------------------------------------------
 
-    def initCheckInstrumentListBox(self):
-        self.checkedInstrumentsList = AkCheckedInstrumentListBox(self)
-        
-        self.checkedInstrumentsList.InsertColumn(0, "Name")
-        self.checkedInstrumentsList.InsertColumn(1, "Description")
-
-        for i in range(len(instrumentData)):
-            self.checkedInstrumentsList.InsertItem(i, instrumentData[i][0])
-            self.checkedInstrumentsList.SetItem(i, 1, instrumentData[i][1])
-
-    
     def AddWatchList(self, name):
         if (name == ""):
             return
@@ -168,7 +158,8 @@ class AkInstrumentView(wx.Dialog):
         print("Event handler 'OnSaveAndApply_Handler' not implemented!")
         event.Skip()
 
-    def OnCancel_Handler(self, event): 
-        self.view.Close()
+    def OnClose_Handler(self, event): 
+        print("Event handler 'OnClose_Handler' not implemented!")
+        self.Close()
 
     

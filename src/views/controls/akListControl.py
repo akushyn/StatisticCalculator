@@ -5,18 +5,13 @@ Created on Sat Feb 24 16:50:19 2018
 @author: Andriy
 """
 import wx
-from wx.lib.pubsub import pub
-from src.controllers.akPubEvents import AkHistoricalDataEvents
 
-class AkListCtrl(wx.ListCtrl):
-    '''
-    Custom List control.
-    '''
+
+class AkListControl(wx.ListCtrl):
+
     def __init__(self, *args, **kwargs):
-        super(AkListCtrl, self).__init__(*args, **kwargs)
+        super(AkListControl, self).__init__(*args, **kwargs)
         self.__set_properties()
-        
-        pub.subscribe(self.ShowData, AkHistoricalDataEvents.LIST_DATA_CONTROL_CHANGING)
          
     def __set_properties(self):
         self.AppendColumn("Date", format=wx.LIST_FORMAT_LEFT, width=-1)
@@ -24,8 +19,8 @@ class AkListCtrl(wx.ListCtrl):
         self.AppendColumn("High", format=wx.LIST_FORMAT_LEFT, width=-1)
         self.AppendColumn("Low", format=wx.LIST_FORMAT_LEFT, width=-1)
         self.AppendColumn("Close", format=wx.LIST_FORMAT_LEFT, width=-1)
-
-    def ShowData(self, data):
+        
+    def LoadData(self, data):
         print("Pub handler 'OnListDataChanging' called!")
         # [Date, Open, High, Low, Close]
         if (data):
@@ -36,3 +31,6 @@ class AkListCtrl(wx.ListCtrl):
                 self.SetItem(i, 2, data[i][2])            
                 self.SetItem(i, 3, data[i][3])
                 self.SetItem(i, 4, data[i][4])
+
+
+

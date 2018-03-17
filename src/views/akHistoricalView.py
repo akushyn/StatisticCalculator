@@ -15,15 +15,16 @@ class AkHistoricalView(wx.Dialog):
         super(AkHistoricalView, self).__init__(parent, style=style)
         self.SetInitialSize((766, 537))
         
-        self.controller = controller
-        self.controller.Register(self)
+        self._controller = controller
+        self._controller.Register(self)
         
         self._notebook = wx.Notebook(self, wx.ID_ANY)
-        self._importView = AkImportView(self._notebook, self.controller)
-        self._downloadView = AkDownloadView(self._notebook, self.controller)
+        self._importView = AkImportView(self._notebook, self._controller)
+        self._downloadView = AkDownloadView(self._notebook, self._controller)
 
         self.__set_properties()
         self.__do_layout()
+        self.__init_controls()
         self.__set_bindings()        
 
 #------------------------------------------------------------------------------
@@ -34,6 +35,10 @@ class AkHistoricalView(wx.Dialog):
         self.Bind(wx.EVT_CLOSE, self.OnCloseView_Handler)
         self.Bind(wx.EVT_WINDOW_DESTROY, self.OnDestroyView_Handler)
 
+    def __init_controls(self):
+        model = self._controller.GetModel()
+        self.GetDownloadView().GetTree().UpdateTreeItems(model.GetImported().GetItems())
+    
     def __set_properties(self):
         self.SetTitle("Historical Data Manager")
 
@@ -50,6 +55,7 @@ class AkHistoricalView(wx.Dialog):
 #------------------------------------------------------------------------------        
 # Get/Set methods
 #------------------------------------------------------------------------------
+        
     def GetNotebook(self):
         return self._notebook
 
@@ -58,6 +64,9 @@ class AkHistoricalView(wx.Dialog):
     
     def GetDownloadView(self):
         return self._downloadView
+    
+    def GetController(self):
+        return self._controller
 
 #------------------------------------------------------------------------------
 # Event Handlers

@@ -32,9 +32,9 @@ class AkTreeControl(CT.CustomTreeCtrl):
         self.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.OnTreeItemDoubleClick_Handler)
         self.Bind(wx.EVT_TREE_ITEM_RIGHT_CLICK, self.OnShowPopup_Handler)
 
-        pub.subscribe(self.AddImportedTreeItem, AkPubEvents.IMPORTED_DATA_CHANGED)
+        pub.subscribe(self.UpdateTreeItems, AkPubEvents.IMPORTED_DATA_CHANGED)
  
-         #------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # Event handlers
 #------------------------------------------------------------------------------
     def OnShowPopup_Handler(self, event):
@@ -94,7 +94,7 @@ class AkTreeControl(CT.CustomTreeCtrl):
         pub.sendMessage(AkHistoricalDataEvents.LIST_DATA_CONTROL_CHANGING, data=data)   
         print("Pub sendMessage 'OnListDataChanging' called!") 
        
-    def AddImportedTreeItem(self, items):
+    def UpdateTreeItems(self, items):
         self.DeleteChildren(self.imported)
         
         for i in range(len(items)):

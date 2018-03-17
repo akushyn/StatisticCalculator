@@ -7,6 +7,8 @@ Created on Sun Mar 11 13:56:31 2018
 import wx
 from src.views.controls.akCheckedInstrumentListBox import AkCheckedInstrumentListBox
 
+instrumentData = [("EURUSD", "Euro FX"), ("GBPUSD", "British Pound"), ("GC", "COMEX Gold Futures"), ("CL", "Crude Oil Futures"), ("SP500", "S&P 500"), ("AUDUSD", "Australian Dollar"), ("EURJPY", "Euro vs Japanese Yen"), ("USDJPY", "Japanese Yen"), ("BTCUSD", "Bit coin"), ("LTCUSD", "Light coin")]
+
 class AkCheckedListView(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent, -1)
@@ -16,8 +18,14 @@ class AkCheckedListView(wx.Panel):
         self.btn_Insert = wx.BitmapButton(self, wx.ID_ANY, wx.Bitmap("icons/add.ico", wx.BITMAP_TYPE_ANY))
         self.btn_Remove = wx.BitmapButton(self, wx.ID_ANY, wx.Bitmap("icons/delete.ico", wx.BITMAP_TYPE_ANY))        
         
-        self.initCheckInstrumentListBox()
+        self.checkedInstrumentsList = AkCheckedInstrumentListBox(self)
         
+        self.checkedInstrumentsList.InsertColumn(0, "Name")
+        self.checkedInstrumentsList.InsertColumn(1, "Description")
+
+        for i in range(len(instrumentData)):
+            self.checkedInstrumentsList.InsertItem(i, instrumentData[i][0])
+            self.checkedInstrumentsList.SetItem(i, 1, instrumentData[i][1])
         
         self.__set_properties()
         self.__do_layout()
@@ -44,12 +52,4 @@ class AkCheckedListView(wx.Panel):
         self.SetSizer(sizer)
         self.Layout()
         
-    def initCheckInstrumentListBox(self):
-        self.checkedInstrumentsList = AkCheckedInstrumentListBox(self)
         
-        self.checkedInstrumentsList.InsertColumn(0, "Name")
-        self.checkedInstrumentsList.InsertColumn(1, "Description")
-
-        #for i in range(len(instrumentData)):
-        #    self.checkedInstrumentsList.InsertItem(i, instrumentData[i][0])
-        #    self.checkedInstrumentsList.SetItem(i, 1, instrumentData[i][1])    

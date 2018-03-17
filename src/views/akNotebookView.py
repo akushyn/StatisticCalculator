@@ -5,6 +5,7 @@ Created on Tue Mar  6 11:55:44 2018
 @author: Andriy
 """
 import wx
+import wx.lib.agw.flatnotebook as fn
 from src.views.akSummaryView import AkSummaryView
 from src.views.akGraphsView import AkGraphsView
 from src.views.akJournalView import AkJournalView
@@ -19,7 +20,8 @@ class AkNotebookView(wx.Panel):
         #wx.Panel.__init__(self, parent)
 
         #style = aui.AUI_NB_DEFAULT_STYLE ^ aui.AUI_NB_CLOSE_ON_ACTIVE_TAB
-        self._notebook = wx.aui.AuiNotebook(self)
+        #self._notebook = wx.aui.AuiNotebook(self)
+        self._notebook = fn.FlatNotebook(self)
         
         self.summary = AkSummaryView(self._notebook) 
         self.graphs = AkGraphsView(self._notebook)

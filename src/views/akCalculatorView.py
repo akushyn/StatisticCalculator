@@ -32,7 +32,7 @@ class AkCalculatorView(wx.Frame):
         
 
         self._btn_Calculate = wx.Button(self, wx.ID_ANY, "Calculate")
-        self._notebookView = AkNotebookView(self, self.notebookController)
+        self._notebookView = AkNotebookView(self, self._notebookController)
         
         self.__set_properties()
         self.__do_layout()
@@ -43,9 +43,9 @@ class AkCalculatorView(wx.Frame):
 #------------------------------------------------------------------------------
         
     def __initControllers(self):
-        self.notebookController = AkNotebookViewController()
-        self.instrumentViewController = AkInstrumentViewController()       
-        self.historicalViewController = AkHistoricalViewController()
+        self._notebookController = AkNotebookViewController()
+        self._instrumentViewController = AkInstrumentViewController()       
+        self._historicalViewController = AkHistoricalViewController()
 
     def __set_bindings(self):
         self.Bind(wx.EVT_MENU, self.OnConnectView_Handler, id=self.GetMenuBar().connectMenuItem.GetId())   
@@ -62,6 +62,7 @@ class AkCalculatorView(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnDisplayActiveTab_Handler, id=self.GetMenuBar().graphsCheckItem.GetId())
         self.Bind(wx.EVT_MENU, self.OnDisplayActiveTab_Handler, id=self.GetMenuBar().journalCheckItem.GetId())
         
+        self.Bind(wx.EVT_BUTTON, self.OnCalculate_Handler, self._btn_Calculate)
     def __set_properties(self):
         self.SetTitle("Statistic Calculator")
 
@@ -92,11 +93,13 @@ class AkCalculatorView(wx.Frame):
     def GetNotebookView(self):
         return self._notebookView
 
+    def GetHistoricalViewController(self):
+        return self._historicalViewControllers
 #------------------------------------------------------------------------------
 # Event Handlers
 #------------------------------------------------------------------------------
     def OnInstrumentView_Handler(self, event): 
-        instrumentView = AkInstrumentView(self, self.instrumentViewController)
+        instrumentView = AkInstrumentView(self, self._instrumentViewController)
         instrumentView.ShowModal()
         instrumentView.Close()
         
@@ -108,7 +111,7 @@ class AkCalculatorView(wx.Frame):
             view.ShowModal()
 
     def OnHistoryView_Handler(self, event):
-        historicalView = AkHistoricalView(self, self.historicalViewController)   
+        historicalView = AkHistoricalView(self, self._historicalViewController)   
         historicalView.ShowModal()
         historicalView.Close()
         
@@ -152,3 +155,16 @@ class AkCalculatorView(wx.Frame):
     def OnDisplayActiveTab_Handler(self, event):
         item = self.GetMenuBar().FindItemById(event.GetId())
         print(item.GetText())
+        
+    def OnCalculate_Handler(self, event):
+        print("Event handler 'OnCalculate_Handler' not implemented!")
+        items = self._historicalViewController.GetModel().GetImported().GetItems()
+        for i in range(len(items)):
+            name = items[i].GetName()
+            print(name)
+            data = items[i].GetData()
+            for row in data:
+                print(row)
+            
+    
+        
